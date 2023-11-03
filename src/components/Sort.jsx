@@ -1,6 +1,9 @@
 import React from "react";
 
 export function Sort() {
+  const popupItems = ["популярности", "цене", "алфавиту"];
+  const [popupOpen, isPopupOpen] = React.useState(false);
+  const [active, isActive] = React.useState(0);
   return (
     <div className="sort">
       <div className="sort__label">
@@ -17,15 +20,25 @@ export function Sort() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span onClick={()=>isPopupOpen(!popupOpen)}>{popupItems[active]}</span>
       </div>
-      <div className="sort__popup">
-        <ul>
-          <li className="active">популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
-        </ul>
-      </div>
+      {popupOpen && (
+        <div className="sort__popup">
+          <ul>
+            {popupItems.map((item, i) => (
+              <li
+                key={item}
+                onClick={() => {
+                  isActive(i)
+                  isPopupOpen(false)}}
+                className={active === i ? "active" : ""}
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

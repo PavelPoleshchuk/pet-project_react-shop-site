@@ -9,7 +9,7 @@ import React from "react";
 //   "price": 803,
 //   "category": 0,
 //   "rating": 4
-// },
+// }
 
 export function PizzaBlock({ imageUrl, name, types, sizes, price }) {
   const [activeThickness, isActiveThickness] = React.useState(0);
@@ -22,9 +22,9 @@ export function PizzaBlock({ imageUrl, name, types, sizes, price }) {
         <h4 className="pizza-block__title">{name}</h4>
         <div className="pizza-block__selector">
           <ul>
-            {types.map((item, index) => (
+            {types.map((item, i) => (
               <li
-                key={index}
+                key={i}
                 onClick={() => isActiveThickness(item)}
                 className={activeThickness === item ? "active" : ""}
               >
@@ -33,10 +33,9 @@ export function PizzaBlock({ imageUrl, name, types, sizes, price }) {
             ))}
           </ul>
           <ul>
-            {/* <li className="active">26 </li> */}
-            {sizes.map((item, index) => (
+            {sizes.map((item, i) => (
               <li
-                key={index}
+                key={i}
                 onClick={() => isActiveDiameter(item)}
                 className={activeDiameter === item ? "active" : ""}
               >

@@ -1,26 +1,23 @@
-// import logo from './logo.svg';
+import React from "react";
 import "./scss/app.scss";
 import { Header } from "./components/Header";
-import { Categories } from "./components/Categories";
-import { Sort } from "./components/Sort";
-import { PizzaBlock } from "./components/PizzaBlock";
-import data from "./assets/data/db.json";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+import Basket from "./pages/Basket";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <div className="wrapper">
       <Header />
-
       <div className="content">
         <div className="container">
-          <div className="content__top">
-            <Categories />
-            <Sort />
-          </div>
-          <h2 className="content__title">Все пиццы</h2>
-          <div className="content__items">
-            <PizzaBlock {...data}/>
-          </div>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/basket" element={<Basket />} />
+            <Route path="/not-found" element={<NotFound />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </div>
       </div>
     </div>
@@ -28,3 +25,22 @@ function App() {
 }
 
 export default App;
+
+{
+  /* <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="dashboard" element={<Dashboard />} /> */
+}
+
+{
+  /* Using path="*"" means "match anything", so this route
+                acts like a catch-all for URLs that we don't have explicit
+                routes for. */
+}
+{
+  /* <Route path="*" element={<NoMatch />} />
+        </Route>
+      </Routes> */
+}
