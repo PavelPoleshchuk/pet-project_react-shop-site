@@ -1,22 +1,23 @@
 import React from "react";
 
-export function Categories() {
+export function Categories({categoriesId, setCategoriesId}) {
   const pizzaTypes = [
+    "Все",
     "Мясные",
     "Вегетарианская",
     "Гриль",
     "Острые",
     "Закрытые",
   ];
-  const [activeIndex, setActiveIndex] = React.useState(0);
+  
   return (
     <div className="categories">
       <ul>
         {pizzaTypes.map((item, index) => (
           <li
             key={index}
-            onClick={()=>setActiveIndex(index)}
-            className={activeIndex === index ? "active" : ""}
+            onClick={()=>setCategoriesId(index)}
+            className={categoriesId === index ? "active" : ""}
           >
             {item}
           </li>
