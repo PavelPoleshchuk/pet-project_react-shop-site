@@ -1,0 +1,30 @@
+.root {
+  position: relative;
+  svg {
+    position: absolute;
+    opacity: 0.4;
+
+    &.svg__search {
+      top: 8px;
+      left: 5px;
+      height: 22px;
+      width: 22px;
+    }
+    &.svg__delete {
+      top: 3px;
+      right: 5px;
+      height: 30px;
+      width: 30px;
+    }
+  }
+
+  .input {
+    padding: 5px 15px 5px 30px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    cursor: pointer;
+    &:hover {
+      border: 1px solid rgba(0, 0, 0, 0.8);
+    }
+  }
+}

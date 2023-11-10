@@ -5,10 +5,9 @@ export const sortItems = [
   { name: "названию", apiName: "name" },
 ];
 
-export function Sort({sortId, setSortId}) {
-  
+export function Sort({ sortId, setSortId }) {
   const [popupOpen, isPopupOpen] = React.useState(false);
-  
+
   return (
     <div className="sort">
       <div className="sort__label">

@@ -1,0 +1,27 @@
+.root {
+  display: flex;
+  justify-content: center;
+  li {
+    a {
+      display: block;
+      padding: 5px 15px;
+      border: 1px solid white;
+      background-color: #fe5f1e;
+      cursor: pointer;
+      color: white;
+
+      &:hover {
+        border: none;
+        font-weight: 900;
+      }
+    }
+  }
+  :global {
+    .selected {
+      a {
+        font-weight: 900;
+        background-color: #989290;
+      }
+    }
+  }
+}

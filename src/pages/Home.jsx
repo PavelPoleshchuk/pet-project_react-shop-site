@@ -5,8 +5,8 @@ import { PizzaBlock } from "../components/PizzaBlock";
 import { Skeleton } from "../components/Skeleton";
 import { sortItems } from "../components/Sort";
 
-export default function Home() {
-  const BASE_URL = "https://6540cd8d45bedb25bfc2a522.mockapi.io/items";
+export default function Home({ searchValue, selectedPage }) {
+  const BASE_URL = "https://6540cd8d45bedb25bfc2a522.mockapi.io/items?";
   const [categoriesId, setCategoriesId] = React.useState(0);
   const [sortId, setSortId] = React.useState(0);
   const [data, setData] = React.useState([]);
@@ -17,13 +17,15 @@ export default function Home() {
     console.log("sortId=", sortId);
   }, [categoriesId, sortId]);
 
-//?category=1&?sortBy=rating&order=asc
+  //?category=1&?sortBy=rating&order=asc
 
   React.useEffect(() => {
+    const category = categoriesId ? `category=${categoriesId}` : "";
+    const search = searchValue ? `&search=${searchValue}` : "";
+    const sort = `&sortBy=${sortItems[sortId].apiName}&order=asc`;
+
     isLoading(true);
-    const url = `${BASE_URL}${categoriesId ? `?category=${categoriesId}&` : ""}${
-      sortId ? `?sortBy=${sortItems[sortId].apiName}&order=asc` : ""
-    }`;
+    const url = `${BASE_URL}page=${selectedPage}&limit=4${category}${search}${sort}`;
     console.log(url);
     fetch(url)
       .then((res) => res.json())
@@ -33,8 +35,8 @@ export default function Home() {
           isLoading(false);
         }, 500);
       });
-    window.scrollTo(0, 0);
-  }, [categoriesId,sortId]);
+    // window.scrollTo(0, 0);
+  }, [categoriesId, sortId, searchValue,selectedPage]);
   return (
     <>
       <div className="content__top">
@@ -49,6 +51,7 @@ export default function Home() {
         {loading && [...new Array(10)].map((_, i) => <Skeleton key={i} />)}
         {!loading && data.map((item) => <PizzaBlock key={item.id} {...item} />)}
       </div>
+      
     </>
   );
 }
