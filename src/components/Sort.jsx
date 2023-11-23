@@ -1,11 +1,16 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSortId } from "../redux/reducers/sortAndCategorySlice";
+
 export const sortItems = [
   { name: "рейтингу", apiName: "rating" },
   { name: "цене", apiName: "price" },
   { name: "названию", apiName: "name" },
 ];
 
-export function Sort({ sortId, setSortId }) {
+export function Sort() {
+  const dispatch = useDispatch();
+  const sortId = useSelector((state) => state.sortAndCategory.sortId);
   const [popupOpen, isPopupOpen] = React.useState(false);
 
   return (
@@ -35,7 +40,7 @@ export function Sort({ sortId, setSortId }) {
               <li
                 key={item.apiName}
                 onClick={() => {
-                  setSortId(i);
+                  dispatch(setSortId(i));
                   isPopupOpen(false);
                 }}
                 className={sortId === i ? "active" : ""}

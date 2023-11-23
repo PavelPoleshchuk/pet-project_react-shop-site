@@ -7,24 +7,30 @@ import Basket from "./pages/Basket";
 import { Routes, Route } from "react-router-dom";
 import Pagination from "./components/Pagination";
 
+export const PageAndSearchContext = React.createContext();
+
 function App() {
   const [searchValue, setSearchValue] = React.useState("");
   const [selectedPage, setSelectedPage] = React.useState(1);
-  console.log("searchValue", searchValue);
+  console.log("searchValue=", searchValue);
   return (
     <div className="wrapper">
-      <Header searchValue={searchValue} setSearchValue={setSearchValue} />
-      <div className="content">
-        <div className="container">
-          <Routes>
-            <Route path="/" element={<Home selectedPage={selectedPage} searchValue={searchValue}/>} />
-            <Route path="/basket" element={<Basket />} />
-            <Route path="/not-found" element={<NotFound />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <Pagination setSelectedPage={setSelectedPage}/>
+      <PageAndSearchContext.Provider
+        value={{ searchValue, setSearchValue, selectedPage, setSelectedPage }}
+      >
+        <Header />
+        <div className="content">
+          <div className="container">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/basket" element={<Basket />} />
+              <Route path="/not-found" element={<NotFound />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <Pagination />
+          </div>
         </div>
-      </div>
+      </PageAndSearchContext.Provider>
     </div>
   );
 }
