@@ -2,6 +2,37 @@ import React from "react";
 import styles from "./Search.module.scss";
 
 export default function Search({ searchValue, setSearchValue }) {
+  const [searchValueTemp, setSearchValueTemp] = React.useState("");
+  const inputRef = React.useRef();
+
+  const resetInput = () => {
+    setSearchValue("");
+    setSearchValueTemp("");
+    inputRef.current.focus();
+  };
+
+  function debounce(func, ms) {
+    let timeout;
+    return function () {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, arguments), ms);
+    };
+  }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const testDebounce = React.useCallback(
+    debounce((v) => {
+      setSearchValue(v);
+    }, 500),
+    []
+  );
+
+  
+  const onChangeInput = (e) => {
+    setSearchValueTemp(e.target.value);
+    testDebounce(searchValueTemp);
+  };
+
   return (
     <div className={styles.root}>
       <svg
@@ -17,7 +48,7 @@ export default function Search({ searchValue, setSearchValue }) {
       </svg>
 
       <svg
-        onClick={() => setSearchValue("")}
+        onClick={resetInput}
         className={styles.svg__delete}
         baseProfile="tiny"
         height="24px"
@@ -31,8 +62,9 @@ export default function Search({ searchValue, setSearchValue }) {
       </svg>
 
       <input
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        ref={inputRef}
+        value={searchValueTemp}
+        onChange={onChangeInput}
         className={styles.input}
         type="text"
         placeholder="Введите текст..."

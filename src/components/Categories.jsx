@@ -4,7 +4,9 @@ import { setCategoriesId } from "../redux/reducers/sortAndCategorySlice";
 
 export function Categories() {
   const dispatch = useDispatch();
-  const categoriesId = useSelector((state) => state.sortAndCategory.categoriesId);
+  const categoriesId = useSelector(
+    (state) => state.sortAndCategory.categoriesId
+  );
   const pizzaTypes = [
     "Все",
     "Мясные",
@@ -20,7 +22,10 @@ export function Categories() {
         {pizzaTypes.map((item, index) => (
           <li
             key={index}
-            onClick={() => dispatch(setCategoriesId(index))}
+            onClick={() => {
+              dispatch(setCategoriesId(index));
+              console.log("index=", index);
+            }}
             className={categoriesId === index ? "active" : ""}
           >
             {item}

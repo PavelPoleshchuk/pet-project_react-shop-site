@@ -11,6 +11,7 @@ export const sortItems = [
 export function Sort() {
   const dispatch = useDispatch();
   const sortId = useSelector((state) => state.sortAndCategory.sortId);
+  
   const [popupOpen, isPopupOpen] = React.useState(false);
 
   return (
@@ -42,6 +43,7 @@ export function Sort() {
                 onClick={() => {
                   dispatch(setSortId(i));
                   isPopupOpen(false);
+                  
                 }}
                 className={sortId === i ? "active" : ""}
               >

@@ -6,52 +6,79 @@ import { Skeleton } from "../components/Skeleton";
 import { sortItems } from "../components/Sort";
 import { useSelector } from "react-redux";
 import { PageAndSearchContext } from "../App";
-import axios from 'axios';
+import axios from "axios";
+import qs from "qs";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setAllFilters } from "../redux/reducers/sortAndCategorySlice";
 
 export default function Home() {
-  const BASE_URL = "https://6540cd8d45bedb25bfc2a522.mockapi.io/items?";
-  const { searchValue, selectedPage } = React.useContext(PageAndSearchContext);
-  const { categoriesId, sortId } = useSelector(
+  const { searchValue } = React.useContext(PageAndSearchContext);
+  const { categoriesId, sortId, selectedPage } = useSelector(
     (state) => state.sortAndCategory
   );
-  // const [categoriesId, setCategoriesId] = React.useState(0);
-  // const [sortId, setSortId] = React.useState(0);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [data, setData] = React.useState([]);
   const [loading, isLoading] = React.useState(true);
+
+  //?category=1&?sortBy=rating&order=asc
+  //?sortId=rating&categoriesId=0&selectedPage=1
+  React.useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+      console.log("window.location.search=", window.location.search);
+      console.log("params=", params);
+
+      const indexSortedItem = () =>
+        sortItems.findIndex((item) => item.apiName === params.sortId);
+
+      const payloadParams = {
+        ...params,
+        sortId: indexSortedItem(),
+      };
+      console.log("payloadParams=", payloadParams);
+
+      dispatch(setAllFilters(payloadParams));
+    }
+  }, [dispatch]);
 
   React.useEffect(() => {
     console.log("categoriesId=", categoriesId);
     console.log("sortId=", sortId);
-  }, [categoriesId, sortId]);
+    console.log("selectedPage=", selectedPage);
+  }, [categoriesId, selectedPage, sortId]);
 
-  //?category=1&?sortBy=rating&order=asc
 
   React.useEffect(() => {
+    isLoading(true);
     const pizzasPerPage = 4;
     const category = categoriesId ? `&category=${categoriesId}` : "";
     const search = searchValue ? `&search=${searchValue}` : "";
     const sort = `&sortBy=${sortItems[sortId].apiName}&order=asc`;
-
-    isLoading(true);
+    const BASE_URL = "https://6540cd8d45bedb25bfc2a522.mockapi.io/items?";
     const url = `${BASE_URL}page=${selectedPage}&limit=${pizzasPerPage}${category}${search}${sort}`;
-    console.log(url);
-    axios.get(url)
-    .then((pizzas) => {
+    console.log("Fetch_url=", url);
+    
+    axios.get(url).then((pizzas) => {
       setTimeout(() => {
         setData(pizzas.data);
         isLoading(false);
       }, 500);
     });
-    // fetch(url)
-    //   .then((res) => res.json())
-    //   .then((pizzas) => {
-    //     setTimeout(() => {
-    //       setData(pizzas);
-    //       isLoading(false);
-    //     }, 500);
-    //   });
     // window.scrollTo(0, 0);
   }, [categoriesId, sortId, searchValue, selectedPage]);
+
+  React.useEffect(() => {
+    const queryString = qs.stringify({
+      sortId: sortItems[sortId].apiName,
+      categoriesId: categoriesId,
+      selectedPage: selectedPage,
+    });
+    navigate(`?${queryString}`);
+  }, [categoriesId, navigate, selectedPage, sortId]);
+
   return (
     <>
       <div className="content__top">
