@@ -3,11 +3,11 @@ import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./Pagination.module.scss";
-import { setSelectedPage } from "../../redux/reducers/sortAndCategorySlice";
+import { setSelectedPage } from "../../redux/reducers/filtersSlice";
 
 export default function Pagination() {
   const pageNumber = useSelector(
-    (state) => state.sortAndCategory.selectedPage
+    (state) => state.filters.selectedPage
   );
   const dispatch = useDispatch();
 

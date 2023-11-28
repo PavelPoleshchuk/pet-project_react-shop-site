@@ -10,12 +10,12 @@ import axios from "axios";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setAllFilters } from "../redux/reducers/sortAndCategorySlice";
+import { setAllFilters } from "../redux/reducers/filtersSlice";
 
 export default function Home() {
   const { searchValue } = React.useContext(PageAndSearchContext);
   const { categoriesId, sortId, selectedPage } = useSelector(
-    (state) => state.sortAndCategory
+    (state) => state.filters
   );
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -28,8 +28,8 @@ export default function Home() {
   React.useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
-      console.log("window.location.search=", window.location.search);
-      console.log("params=", params);
+      // console.log("window.location.search=", window.location.search);
+      // console.log("params=", params);
 
       const indexSortedItem = () =>
         sortItems.findIndex((item) => item.apiName === params.sortId);
@@ -38,17 +38,17 @@ export default function Home() {
         ...params,
         sortId: indexSortedItem(),
       };
-      console.log("payloadParams=", payloadParams);
+      // console.log("payloadParams=", payloadParams);
 
       dispatch(setAllFilters(payloadParams));
     }
   }, [dispatch]);
 
-  React.useEffect(() => {
-    console.log("categoriesId=", categoriesId);
-    console.log("sortId=", sortId);
-    console.log("selectedPage=", selectedPage);
-  }, [categoriesId, selectedPage, sortId]);
+  // React.useEffect(() => {
+  //   console.log("categoriesId=", categoriesId);
+  //   console.log("sortId=", sortId);
+  //   console.log("selectedPage=", selectedPage);
+  // }, [categoriesId, selectedPage, sortId]);
 
 
   React.useEffect(() => {

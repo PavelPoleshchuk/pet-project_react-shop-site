@@ -1,8 +1,17 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { BasketItem } from "../components/BasketItem";
+import { useDispatch, useSelector } from "react-redux";
+import {cleanBasket} from "../redux/reducers/basketSlice"
 
 export default function Basket() {
+  const dispatch = useDispatch();
+  const { items, totalCount, totalPrice } = useSelector(
+    (state) => state.basket
+  );
+
+  const clean = () => dispatch(cleanBasket());
+
   return (
     <div class="basket">
       <div class="basket__top">
@@ -75,20 +84,20 @@ export default function Basket() {
               stroke-linejoin="round"
             />
           </svg>
-          <span>Очистить корзину</span>
+          <span onClick={clean}>Очистить корзину</span>
         </div>
       </div>
-      <BasketItem />
-      <BasketItem />
-      <BasketItem />
-      <BasketItem />
+      {items.map((item, index) => (
+        <BasketItem key={item.id} {...item} />
+      ))}
+
       <div class="basket__bottom">
         <div class="basket__bottom-details">
           <span>
-            Всего пицц: <b>3 шт.</b>
+            Всего пицц: <b>{totalCount} шт.</b>
           </span>
           <span>
-            Сумма заказа: <b>900 ₽</b>
+            Сумма заказа: <b>{totalPrice} ₽</b>
           </span>
         </div>
         <div class="basket__bottom-buttons">

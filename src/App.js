@@ -12,7 +12,7 @@ export const PageAndSearchContext = React.createContext();
 function App() {
   const [searchValue, setSearchValue] = React.useState("");
   // const [selectedPage, setSelectedPage] = React.useState(1);
-  console.log("searchValue=", searchValue);
+  // console.log("searchValue=", searchValue);
   return (
     <div className="wrapper">
       <PageAndSearchContext.Provider

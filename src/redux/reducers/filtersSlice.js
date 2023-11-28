@@ -6,8 +6,8 @@ const initialState = {
   selectedPage: 1,
 };
 
-export const sortAndCategorySlice = createSlice({
-  name: "filter",
+export const filtersSlice = createSlice({
+  name: "filters",
   initialState,
   reducers: {
     setSortId: (state, action) => {
@@ -28,6 +28,6 @@ export const sortAndCategorySlice = createSlice({
 });
 
 export const { setSortId, setCategoriesId, setSelectedPage, setAllFilters } =
-  sortAndCategorySlice.actions;
+  filtersSlice.actions;
 
-export default sortAndCategorySlice.reducer;
+export default filtersSlice.reducer;

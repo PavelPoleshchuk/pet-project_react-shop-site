@@ -1,18 +1,24 @@
 import React from "react";
 
-export function BasketItem() {
+// const item = {
+//   id,
+//   imageUrl,
+//   name,
+//   types: thickness[activeThickness],
+//   sizes: activeDiameter,
+//   price,
+//   count: 1,
+// };
+
+export function BasketItem({ imageUrl, name, types, sizes, count, price }) {
   return (
     <div class="basket__item">
       <div class="basket__item-img">
-        <img
-          class="pizza-block__image"
-          src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-          alt="Pizza"
-        />
+        <img class="pizza-block__image" src={imageUrl} alt="Pizza" />
       </div>
       <div class="basket__item-info">
-        <h3>Сырный цыпленок</h3>
-        <p>тонкое тесто, 26 см.</p>
+        <h3>{name}</h3>
+        <p>{`${types}, ${sizes} см`}</p>
       </div>
       <div class="basket__item-count">
         <div class="button button--outline button--circle basket__item-count-minus">
@@ -33,7 +39,7 @@ export function BasketItem() {
             />
           </svg>
         </div>
-        <b>2</b>
+        <b>{count}</b>
         <div class="button button--outline button--circle basket__item-count-plus">
           <svg
             width="10"
@@ -54,7 +60,7 @@ export function BasketItem() {
         </div>
       </div>
       <div class="basket__item-price">
-        <b>770 ₽</b>
+        <b>{count * price} ₽</b>
       </div>
       <div class="basket__item-remove">
         <div class="button button--outline button--circle">

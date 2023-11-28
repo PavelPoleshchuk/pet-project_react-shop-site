@@ -1,4 +1,6 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { addItemToBasket } from "../redux/reducers/basketSlice";
 
 // {
 //   "id": 0,
@@ -11,10 +13,24 @@ import React from "react";
 //   "rating": 4
 // }
 
-export function PizzaBlock({ imageUrl, name, types, sizes, price }) {
-  const [activeThickness, isActiveThickness] = React.useState(0);
-  const [activeDiameter, isActiveDiameter] = React.useState(0);
+export function PizzaBlock({ id, imageUrl, name, types, sizes, price }) {
+  const [activeThickness, setActiveThickness] = React.useState(0);
+  const [activeDiameter, setActiveDiameter] = React.useState(sizes[0]);
   const thickness = ["тонкое", "традиционное"];
+  const dispatch = useDispatch();
+
+  const addItem = () => {
+    const item = {
+      id,
+      imageUrl,
+      name,
+      types: thickness[activeThickness],
+      sizes: activeDiameter,
+      price,
+      count: 1,
+    };
+    dispatch(addItemToBasket(item));
+  };
   return (
     <>
       <div className="pizza-block">
@@ -25,7 +41,7 @@ export function PizzaBlock({ imageUrl, name, types, sizes, price }) {
             {types.map((item, i) => (
               <li
                 key={i}
-                onClick={() => isActiveThickness(item)}
+                onClick={() => setActiveThickness(item)}
                 className={activeThickness === item ? "active" : ""}
               >
                 {thickness[item]}
@@ -36,7 +52,7 @@ export function PizzaBlock({ imageUrl, name, types, sizes, price }) {
             {sizes.map((item, i) => (
               <li
                 key={i}
-                onClick={() => isActiveDiameter(item)}
+                onClick={() => setActiveDiameter(item)}
                 className={activeDiameter === item ? "active" : ""}
               >
                 {item}
@@ -59,7 +75,7 @@ export function PizzaBlock({ imageUrl, name, types, sizes, price }) {
                 fill="white"
               />
             </svg>
-            <span>Добавить</span>
+            <span onClick={addItem}>Добавить</span>
             <i>0</i>
           </button>
         </div>

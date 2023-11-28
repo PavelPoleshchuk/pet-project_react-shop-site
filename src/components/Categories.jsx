@@ -1,11 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCategoriesId } from "../redux/reducers/sortAndCategorySlice";
+import { setCategoriesId } from "../redux/reducers/filtersSlice";
 
 export function Categories() {
   const dispatch = useDispatch();
   const categoriesId = useSelector(
-    (state) => state.sortAndCategory.categoriesId
+    (state) => state.filters.categoriesId
   );
   const pizzaTypes = [
     "Все",

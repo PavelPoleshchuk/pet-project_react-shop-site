@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSortId } from "../redux/reducers/sortAndCategorySlice";
+import { setSortId } from "../redux/reducers/filtersSlice";
 
 export const sortItems = [
   { name: "рейтингу", apiName: "rating" },
@@ -9,13 +9,25 @@ export const sortItems = [
 ];
 
 export function Sort() {
+  const sortRef = useRef();
+  console.log("sortRef=", sortRef);
   const dispatch = useDispatch();
-  const sortId = useSelector((state) => state.sortAndCategory.sortId);
-  
+  const sortId = useSelector((state) => state.filters.sortId);
+
   const [popupOpen, isPopupOpen] = React.useState(false);
 
+  useEffect(() => {
+    const isPressPopApp = (e) => {
+      if (!e.composedPath().includes(sortRef.current)) {
+        isPopupOpen(false);
+      }
+    };
+    document.body.addEventListener("click", isPressPopApp);
+    return () => document.body.removeEventListener("click", isPressPopApp);
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"
@@ -43,7 +55,6 @@ export function Sort() {
                 onClick={() => {
                   dispatch(setSortId(i));
                   isPopupOpen(false);
-                  
                 }}
                 className={sortId === i ? "active" : ""}
               >

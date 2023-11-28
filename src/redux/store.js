@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import sortAndCategory from "./reducers/sortAndCategorySlice";
+import filters from "./reducers/filtersSlice";
+import basket from "./reducers/basketSlice";
 
 export const store = configureStore({
   reducer: {
-    sortAndCategory,
+    filters,
+    basket,
   },
 });
